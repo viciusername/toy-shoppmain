@@ -1,0 +1,41 @@
+@using ToyPlanet.Core
+@{
+    ViewBag.Title = "Деталі замовлення";
+    var order = ViewBag.Order as Order;
+}
+<h2>Деталі замовлення</h2>
+@if (order != null)
+{
+    <div class="card p-3 mb-3">
+        <div><b>Номер замовлення:</b> @order.Id</div>
+        <div><b>Дата:</b> @order.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</div>
+        <div><b>Сума:</b> @order.Total ₴</div>
+        <div><b>Товари:</b></div>
+        <table class="table table-bordered table-sm mt-2">
+            <thead>
+                <tr>
+                    <th>Назва</th>
+                    <th>Кількість</th>
+                    <th>Ціна</th>
+                    <th>Сума</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in order.Items)
+            {
+                <tr>
+                    <td>@item.Toy.Name</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Toy.Price ₴</td>
+                    <td>@item.LineTotal ₴</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <a asp-action="Index" class="btn btn-secondary">Назад до замовлень</a>
+}
+else
+{
+    <div class="alert alert-danger">Замовлення не знайдено.</div>
+}
